@@ -1,0 +1,1 @@
+ - shamelessly borrowed from an angular.js project scaffold

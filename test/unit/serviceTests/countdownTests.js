@@ -58,15 +58,14 @@ define(['clockmock','sinon','timey'],function(clockmock,sinon,timey){
                       var timeRemainingMillis = timey.getTimeRemainingMillis();
                       expect(elapsedMillis + timeRemainingMillis).toEqual(startTime);
                 });
-//          
-//          
-//                it('getHourMinuteSecondRemainString shows ' +  expectedDisplay, 
-//                  angularMocks.inject(function($rootScope,$interval,timey) {
-//                      timey.startTimer(_startTime);
-//                      elapseMillis($interval,this.clock,_elapse);
-//                      var result = timey.getHourMinuteSecondRemainString();
-//                      expect(result).toEqual(expectedDisplay);
-//                }));
+          
+          
+                it('getHourMinuteSecondRemainString shows ' +  expectedDisplay, function() {
+                      timey.startTimer(_startTime);
+                      elapseMillis(this.clock,_elapse);
+                      var result = timey.getHourMinuteSecondRemainString();
+                      expect(result).toEqual(expectedDisplay);
+                });
           
             });
         };

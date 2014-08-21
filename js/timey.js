@@ -10,27 +10,35 @@ define(['parameterCheck'],function(parameterCheck){
       //run a timer with 0 value
       var _elapsedMillis = 0;
       var _remain = 0;
-      var updatePeriodMillis = 1000;
-      
+      var _updatePeriodMillis = 1000;
+
+
       var startTimer = function(countdownFromMillis){
+	      startTimerWithUpdatePeriodMillis(countdownFromMillis,1000);
+      };
+      
+      var startTimerWithUpdatePeriodMillis = function(countdownFromMillis,updatePeriodMillis){
   	if(typeof(countdownFromMillis) !== "number" || !isInteger(countdownFromMillis)){
             throw "countdownFromMillis must be an integer";
   	}
   	if(countdownFromMillis < 0){
             throw "cannot start timer with a value < 0";
   	}
-  	//TODO either clear all private data or make it
-  	//so each service dependency is uniquely instantiated
   	_countdownFromMillis = countdownFromMillis;
   	_startDate = Date.now(); 
-  	//start ticking
   	_timeoutId = window.setInterval(function(){
             updateTimeRemaining();
-            }, updatePeriodMillis);
+            }, _updatePeriodMillis);
       };
+
+      var GetUpdatePeriodMillis = function(){
+	      return _updatePeriodMillis;
+      };
+
   
       var updateTimeRemaining = function() {
-        _elapsedMillis = Date.now() - _startDate;
+	var datenow = Date.now();
+        _elapsedMillis = datenow - _startDate;
         if (_elapsedMillis >= _countdownFromMillis){
 	    //the elapsed millis should not show elapsing past the interval, 
 	    //since we are approximating stopping there
@@ -67,13 +75,13 @@ define(['parameterCheck'],function(parameterCheck){
   
       var reset = function(){
   	cancelCountdown();
-          var _startDate = 0;
-          var _countdownFromMillis = 0;
-          var _timeoutId = 0;
+          _startDate = 0;
+          _countdownFromMillis = 0;
+          _timeoutId = 0;
           //start these each at 0 in the case where we want to 
           //run a timer with 0 value
-          var _elapsedMillis = 0;
-          var _remain = 0;
+          _elapsedMillis = 0;
+          _remain = 0;
       };
   
       var getHourMinuteSecondString = function(millis) {
@@ -93,7 +101,8 @@ define(['parameterCheck'],function(parameterCheck){
         getElapsedMillis: getElapsedMillis,
   	cancelCountdown : cancelCountdown,
 	timeRemaining : _remain,
-  	reset : reset
+  	reset : reset,
+        GetUpdatePeriodMillis : GetUpdatePeriodMillis
       };
 });
 

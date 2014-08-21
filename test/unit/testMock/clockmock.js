@@ -3,9 +3,8 @@
 define([],function(){
 'use strict';
 
-  var elapseMillis = function(intervalMock,sinonClock,millis){
+  var elapseMillis = function(sinonClock,millis){
        sinonClock.tick(millis);
-       intervalMock.flush(millis);
   };
 
   return {

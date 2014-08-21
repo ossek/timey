@@ -1,4 +1,4 @@
-define('parameterCheck',function(parameterCheck){
+define(['parameterCheck'],function(parameterCheck){
   'use strict';
    
   var isInteger = parameterCheck.isInteger;
@@ -24,7 +24,7 @@ define('parameterCheck',function(parameterCheck){
   	_countdownFromMillis = countdownFromMillis;
   	_startDate = Date.now(); 
   	//start ticking
-  	_timeoutId = interval(function(){
+  	_timeoutId = window.setInterval(function(){
             updateTimeRemaining();
             }, updatePeriodMillis);
       };
@@ -58,7 +58,7 @@ define('parameterCheck',function(parameterCheck){
       };
   
       var cancelCountdown = function(){
-        interval.cancel(_timeoutId);
+        window.clearInterval(_timeoutId);
       };
   
       var getHourMinuteSecondRemainString = function() {

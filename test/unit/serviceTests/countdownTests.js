@@ -10,7 +10,7 @@ define(['clockmock','sinon','timey'],function(clockmock,sinon,timey){
 
                 beforeEach(function(){
                   //this.clock = sinon.useFakeTimers();
-		  jasmine.clock().install();
+		  jasmine.Clock().install();
                   _startTime = startTime;
                   _elapse = timeElapsed;
                 });
@@ -18,18 +18,17 @@ define(['clockmock','sinon','timey'],function(clockmock,sinon,timey){
                 it('elapsedMillis is supposed to be the time elapsed', function(){
 		    timey.startTimer(_startTime);
           	    //elapseMillis($interval,this.clock,_elapse);
-		    jasmine.clock().tick(_elapse);
+		    jasmine.Clock().tick(_elapse);
                     var elapsedMillis = countdownService.getElapsedMillis();
                     expect(elapsedMillis).toEqual(_elapse);
 		});
                 
-//                it('timeRemaining is supposed to be the time remaining', 
-//                  angularMocks.inject(function($rootScope,$interval,countdownService) {
-//                      countdownService.startTimer(_startTime);
-//          	    elapseMillis($interval,this.clock,_elapse);
-//                      var elapsedMillis = countdownService.getElapsedMillis();
-//                      expect(elapsedMillis).toEqual(_elapse);
-//                }));
+                it('timeRemaining is supposed to be the time remaining', function(){
+                    countdownService.startTimer(_startTime);
+          	    elapseMillis($interval,this.clock,_elapse);
+                    var elapsedMillis = countdownService.getElapsedMillis();
+                    expect(elapsedMillis).toEqual(_elapse);
+                });
 //  
 //                it('elapsedMillis + timeRemainingMillis should == startime', 
 //                  angularMocks.inject(function($rootScope,$interval,countdownService) {
@@ -52,7 +51,7 @@ define(['clockmock','sinon','timey'],function(clockmock,sinon,timey){
           
                 afterEach(function(){
                   //this.clock.restore();
-		  jasmine.clock().uninstall();
+		  jasmine.Clock().uninstall();
           	_startTime = 0;
           	_elapse = 0;
                 });

@@ -57,16 +57,17 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
  </script>
 </head>
 
-<body id="HTMLReporter" class="html-reporter">
+<body id="HTMLReporter" class="html-reporter showDetails">
 <h1>Chrome 36.0.1985 (Linux)</h1>
 
 <div class="alert">
 
 
+<span class="failingAlert bar">Failed 2 specs</span>
+<span class="resultsMenu bar">
+<a class="summaryMenuItem" href="#">3 specs<a>|<a class="detailsMenuItem" href="#">2 failing</a>
+</span>
 
-	
-	<span class="passingAlert bar">Passing 1 specs</span>
-	
 
 
 </div>
@@ -76,10 +77,23 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 
 	
 		<div class="suite passed">
-			<span class="description">service timeRemainingMillis</span>
+			<span class="description">service when start time was 0</span>
 		
 			<div class="specSummary passed">
-			<span class="description">should give 2 separate times when instantiated in different spots</span>
+			<span class="description">elapsedMillis + timeRemainingMillis should == startime</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite failed">
+			<span class="description">service when start time was 3000 milliseconds and 1001 milliseconds have passed </span>
+		
+			<div class="specSummary failed">
+			<span class="description">elapsedMillis is supposed to be the time elapsed</span>
+			</div>
+		
+			<div class="specSummary failed">
+			<span class="description">timeRemaining is supposed to be the time remaining</span>
 			</div>
 		
 		</div>
@@ -87,6 +101,27 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 </div>
 
 <div id="details">
+	
+	
+	<div class="specDetail failed">
+		<span class="description">service when start time was 3000 milliseconds and 1001 milliseconds have passed  elapsedMillis is supposed to be the time elapsed</span>
+		<div class="stackTrace">
+			<div class="resultMessage">TypeError: object is not a function
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/test/unit/serviceTests/countdownTests.js?1938545f30097e6799a8ea326ab50989850a8e6b:13:13),countdownFromMillis must be an integer,TypeError: object is not a function
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/test/unit/serviceTests/countdownTests.js?1938545f30097e6799a8ea326ab50989850a8e6b:54:13)</div>
+		</div>
+	</div>
+	
+	<div class="specDetail failed">
+		<span class="description">service when start time was 3000 milliseconds and 1001 milliseconds have passed  timeRemaining is supposed to be the time remaining</span>
+		<div class="stackTrace">
+			<div class="resultMessage">TypeError: object is not a function
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/test/unit/serviceTests/countdownTests.js?1938545f30097e6799a8ea326ab50989850a8e6b:13:13),ReferenceError: countdownService is not defined
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/test/unit/serviceTests/countdownTests.js?1938545f30097e6799a8ea326ab50989850a8e6b:27:21),TypeError: object is not a function
+    at null.&lt;anonymous&gt; (http://localhost:9876/base/test/unit/serviceTests/countdownTests.js?1938545f30097e6799a8ea326ab50989850a8e6b:54:13)</div>
+		</div>
+	</div>
+	
 	
 </div>
 </body>

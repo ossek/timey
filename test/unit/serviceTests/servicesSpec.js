@@ -1,31 +1,25 @@
-define(['countdownTests'], function(countdownTests){
+define(['countdownTests','timey'], function(countdownTests,timey){
 'use strict';
 
   describe('service', function() {
     beforeEach(function(){});
   
-    describe('timeRemainingMillis', function() {
-        it('should give 2 separate times when instantiated in different spots',function(){ 
-              expect('1').toEqual('1');
+    describe('when start time was 0', function() {
+        it('elapsedMillis + timeRemainingMillis should == startime', function() {
+                timey.startTimer(0);
+                var elapsedMillis = timey.getElapsedMillis();
+                var timeRemainingMillis = timey.getTimeRemainingMillis();
+          expect(elapsedMillis + timeRemainingMillis).toEqual(0);
         });
     });
 
+    //start at 3 s, elapse 1s 1 ms
+    var testRunFor3000_1001 = countdownTests.doStartElapseTests(3000,1001,"00:00:01");
+    testRunFor3000_1001();
+  
   });
 });
 
-  //describe('when start time was 0', function() {
-  //    it('elapsedMillis + timeRemainingMillis should == startime', 
-  //        mocks.inject(function(countdownService) {
-  //            countdownService.startTimer(0);
-  //            var elapsedMillis = countdownService.getElapsedMillis();
-  //            var timeRemainingMillis = countdownService.getTimeRemainingMillis();
-  //      expect(elapsedMillis + timeRemainingMillis).toEqual(0);
-  //    }));
-  //});
-
-  ////start at 3 s, elapse 1s 1 ms
-  //var testRunFor3000_1001 = countdownTests.doStartElapseTests(3000,1001,"00:00:01");
-  //testRunFor3000_1001();
   ////start at 15 min, elapse 6 min, 27 s
   //var testRun900000_387000 = countdownTests.doStartElapseTests(900000,387000,"00:08:33");
   //testRun900000_387000();

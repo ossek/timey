@@ -1,0 +1,24 @@
+{
+  "name": "timeywimey",
+  "version": "0.0.0",
+  "homepage": "https://github.com/ossek/timey",
+  "authors": [
+    "ossek"
+  ],
+  "description": "non-precise, non-accurate, approximate javascript countdown timer",
+  "main": "js/timey.js",
+  "keywords": [
+    "javascript",
+    "timer",
+    "countdown"
+  ],
+  "license": "MIT",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ]
+}

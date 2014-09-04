@@ -65,6 +65,8 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 
 
 	
+	<span class="passingAlert bar">Passing 23 specs</span>
+	
 
 
 </div>
@@ -72,6 +74,143 @@ body { background-color: #eeeeee; padding: 0; margin: 5px; overflow-y: scroll; }
 	<div class="summary">
 
 
+	
+		<div class="suite passed">
+			<span class="description">service when start time was 0</span>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis + timeRemainingMillis should == startime</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">service when start time was 3000 milliseconds and 1001 milliseconds have passed </span>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis is supposed to be the time elapsed, up to nearest less update period</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">timeRemaining is supposed to be the time remaining</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis + timeRemainingMillis should == startime</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">getHourMinuteSecondRemainString shows 00:00:02</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time was 900000 milliseconds and 387000 milliseconds have passed </span>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis is supposed to be the time elapsed, up to nearest less update period</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">timeRemaining is supposed to be the time remaining</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis + timeRemainingMillis should == startime</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">getHourMinuteSecondRemainString shows 00:08:33</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time was 900000 milliseconds and 1000000 milliseconds have passed and timer has not been reset</span>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis is the time elapsed</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">getHourMinuteSecondRemainString shows 00:00:00</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time is -1</span>
+		
+			<div class="specSummary passed">
+			<span class="description">exception is thrown</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">exception is thrown</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time is &quot;dale&quot;</span>
+		
+			<div class="specSummary passed">
+			<span class="description">exception is thrown</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time was 0 milliseconds and 1001 milliseconds have passed </span>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis is supposed to be 0</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">timeRemaining is supposed to be 0</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis + timeRemainingMillis should == 0</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">getHourMinuteSecondRemainString shows undefined</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time is 3000.07</span>
+		
+			<div class="specSummary passed">
+			<span class="description">exception is thrown</span>
+			</div>
+		
+		</div>
+	
+		<div class="suite passed">
+			<span class="description">when start time was 3000 milliseconds and 1001 milliseconds have passed </span>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis is supposed to be the time elapsed, up to nearest less update period</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">timeRemaining is supposed to be the time remaining</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">elapsedMillis + timeRemainingMillis should == startime</span>
+			</div>
+		
+			<div class="specSummary passed">
+			<span class="description">getHourMinuteSecondRemainString shows 00:00:02</span>
+			</div>
+		
+		</div>
 	
 </div>
 

@@ -97,12 +97,14 @@ define(['parameterCheck'],function(parameterCheck){
       return {
   	startTimer : startTimer,
   	getTimeRemainingMillis: getTimeRemainingMillis,
-  	getHourMinuteSecondRemainString: getCountdownHourMinuteSecString,
+        getCountdownHourMinuteSecString : getCountdownHourMinuteSecString,
+  	getHourMinuteSecondRemainString: getHourMinuteSecondRemainString,
         getElapsedMillis: getElapsedMillis,
   	cancelCountdown : cancelCountdown,
 	timeRemaining : _remain,
   	reset : reset,
-        GetUpdatePeriodMillis : GetUpdatePeriodMillis
+        GetUpdatePeriodMillis : GetUpdatePeriodMillis,
+        getHourMinuteSecondString : getHourMinuteSecondString
       };
 });
 

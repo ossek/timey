@@ -7,4 +7,7 @@
 
    - setup karma jasmine config
    - setup test-main.js 
+
+   - setup bower package
+   - publish it (locally)
   

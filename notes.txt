@@ -10,4 +10,7 @@
 
    - setup bower package
    - publish it (locally)
+
+   - jshint in the editor:
+     - configured via syntastic and ~/.jshintrc
   

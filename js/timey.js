@@ -10,7 +10,7 @@ define(['parameterCheck'],function(parameterCheck){
       //run a timer with 0 value
       var _elapsedMillis = 0;
       var _remain = 0;
-      var _updatePeriodMillis = 1000;
+      var _updatePeriodMillis = 250;
 
 
       var startTimer = function(countdownFromMillis){
@@ -25,7 +25,10 @@ define(['parameterCheck'],function(parameterCheck){
             throw "cannot start timer with a value < 0";
   	}
   	_countdownFromMillis = countdownFromMillis;
+	_isPaused =false;
   	_startDate = Date.now(); 
+	_updatePeriodMillis = updatePeriodMillis;
+	_remain = countdownFromMillis;
   	_timeoutId = window.setInterval(function(){
             updateTimeRemaining();
             }, _updatePeriodMillis);
@@ -60,11 +63,6 @@ define(['parameterCheck'],function(parameterCheck){
   	return _elapsedMillis;
       };
   
-      var getCountdownHourMinuteSecString = function(){
-  	var countdownValue = getHourMinuteSecondRemainString(getTimeRemainingMillis);
-  	return countdownValue;
-      };
-  
       var cancelCountdown = function(){
         window.clearInterval(_timeoutId);
       };
@@ -82,6 +80,7 @@ define(['parameterCheck'],function(parameterCheck){
           //run a timer with 0 value
           _elapsedMillis = 0;
           _remain = 0;
+	  _isPaused = false;
       };
   
       var getHourMinuteSecondString = function(millis) {
@@ -93,18 +92,39 @@ define(['parameterCheck'],function(parameterCheck){
           var outputString = utcString.slice(-12,utcString.length - 4);
   	return outputString;
       };
+
+      var _isPaused = false;
+      var _pausedAt = 0;
+
+      var pause = function(){
+	      console.log('remaing just before pause: ' + _remain);
+	      _pausedAt = _remain;
+	      window.clearInterval(_timeoutId);
+	      _isPaused=true;
+	      console.log('remaing just after pause: ' + _remain);
+      };
+
+      var resume = function(){
+	      //depends on this function resetting _isPaused
+	      console.log(' starting with remain ' + _remain);
+	      startTimerWithUpdatePeriodMillis(_remain,_updatePeriodMillis);
+      };
   
       return {
+	//used
   	startTimer : startTimer,
+        getHourMinuteSecondString : getHourMinuteSecondString,
+  	reset : reset,
+	    //not used in ctrl
+        //used in test 	
   	getTimeRemainingMillis: getTimeRemainingMillis,
-        getCountdownHourMinuteSecString : getCountdownHourMinuteSecString,
   	getHourMinuteSecondRemainString: getHourMinuteSecondRemainString,
         getElapsedMillis: getElapsedMillis,
+
   	cancelCountdown : cancelCountdown,
-	timeRemaining : _remain,
-  	reset : reset,
         GetUpdatePeriodMillis : GetUpdatePeriodMillis,
-        getHourMinuteSecondString : getHourMinuteSecondString
+	pause : pause,
+	resume: resume,
       };
 });
 

@@ -11,7 +11,7 @@ define(['parameterCheck'],function(parameterCheck){
       var _elapsedMillis = 0;
       var _remain = 0;
       var _updatePeriodMillis = 250;
-
+      var _isPaused = false;
 
       var startTimer = function(countdownFromMillis){
 	      startTimerWithUpdatePeriodMillis(countdownFromMillis,250);
@@ -24,6 +24,10 @@ define(['parameterCheck'],function(parameterCheck){
   	if(countdownFromMillis < 0){
             throw "cannot start timer with a value < 0";
   	}
+	//must make sure any previously started interval is cancelled before starting a new one.
+	//since the reassignment to _timeoutId will make is so we lose hold of any previously defined
+	//timeout id for a timeout that may still be ongoing
+	reset();
   	_countdownFromMillis = countdownFromMillis;
 	_isPaused =false;
   	_startDate = Date.now(); 
@@ -89,16 +93,13 @@ define(['parameterCheck'],function(parameterCheck){
   	// browser's timezone (i think that's what's happening?)
   	var dateFromMillis = new Date(millis); 
   	var utcString = dateFromMillis.toUTCString();
-          var outputString = utcString.slice(-12,utcString.length - 4);
+        var outputString = utcString.slice(-12,utcString.length - 4);
   	return outputString;
       };
 
-      var _isPaused = false;
-      var _pausedAt = 0;
 
       var pause = function(){
-	      _pausedAt = _remain;
-	      window.clearInterval(_timeoutId);
+	      cancelCountdown();
 	      _isPaused=true;
       };
 

@@ -221,6 +221,21 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
               var result = timey.getTimeRemainingMillis();
               expect(result).toEqual(2000);
             });
+
+	    //based on error seen at ui
+   describe('when timer is started twice at time t, elapses 3 secs, then paused, then elapsed 3 secs', function(){
+            it('time remaining t - 3',function(){
+          	  timey.startTimer(8000);
+          	  clockmock.elapseMillis(this.clock,1000);
+          	  timey.startTimer(8000);
+          	  clockmock.elapseMillis(this.clock,3000);
+		  timey.pause();
+          	  clockmock.elapseMillis(this.clock,3000);
+              var result = timey.getTimeRemainingMillis();
+              expect(result).toEqual(5000);
+            });
+   });
+
     });
 
     afterEach(function(){

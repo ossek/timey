@@ -97,16 +97,13 @@ define(['parameterCheck'],function(parameterCheck){
       var _pausedAt = 0;
 
       var pause = function(){
-	      console.log('remaing just before pause: ' + _remain);
 	      _pausedAt = _remain;
 	      window.clearInterval(_timeoutId);
 	      _isPaused=true;
-	      console.log('remaing just after pause: ' + _remain);
       };
 
       var resume = function(){
 	      //depends on this function resetting _isPaused
-	      console.log(' starting with remain ' + _remain);
 	      startTimerWithUpdatePeriodMillis(_remain,_updatePeriodMillis);
       };
   

@@ -14,7 +14,7 @@ define(['parameterCheck'],function(parameterCheck){
 
 
       var startTimer = function(countdownFromMillis){
-	      startTimerWithUpdatePeriodMillis(countdownFromMillis,1000);
+	      startTimerWithUpdatePeriodMillis(countdownFromMillis,250);
       };
       
       var startTimerWithUpdatePeriodMillis = function(countdownFromMillis,updatePeriodMillis){
@@ -111,16 +111,12 @@ define(['parameterCheck'],function(parameterCheck){
       };
   
       return {
-	//used
   	startTimer : startTimer,
         getHourMinuteSecondString : getHourMinuteSecondString,
   	reset : reset,
-	    //not used in ctrl
-        //used in test 	
   	getTimeRemainingMillis: getTimeRemainingMillis,
   	getHourMinuteSecondRemainString: getHourMinuteSecondRemainString,
         getElapsedMillis: getElapsedMillis,
-
   	cancelCountdown : cancelCountdown,
         GetUpdatePeriodMillis : GetUpdatePeriodMillis,
 	pause : pause,

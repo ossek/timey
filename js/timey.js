@@ -12,6 +12,7 @@ define(['parameterCheck'],function(parameterCheck){
       var _remain = 0;
       var _updatePeriodMillis = 250;
       var _isPaused = false;
+      var _observers = [];
 
       var startTimer = function(countdownFromMillis){
 	      startTimerWithUpdatePeriodMillis(countdownFromMillis,250);
@@ -36,6 +37,7 @@ define(['parameterCheck'],function(parameterCheck){
   	_timeoutId = window.setInterval(function(){
             updateTimeRemaining();
             }, _updatePeriodMillis);
+	console.log('timeout ' + _timeoutId);
       };
 
       var GetUpdatePeriodMillis = function(){
@@ -51,6 +53,8 @@ define(['parameterCheck'],function(parameterCheck){
 	    //since we are approximating stopping there
 	        _elapsedMillis = _countdownFromMillis;
                 cancelCountdown(_timeoutId);
+		console.log('doin');
+		fireTimerFinished();
                 _remain = 0;
         }
         else{
@@ -107,6 +111,19 @@ define(['parameterCheck'],function(parameterCheck){
 	      //depends on this function resetting _isPaused
 	      startTimerWithUpdatePeriodMillis(_remain,_updatePeriodMillis);
       };
+
+      var registerObserver = function(noArgObserverFunction){
+	      _observers.push(noArgObserverFunction);
+      };
+
+      var fireTimerFinished = function(){
+	      var i = 0;
+	      for (i; i < _observers.length; i++){
+	        if(typeof _observers[i] === "function"){
+	          _observers[i]();
+	        }
+	      }
+      };
   
       return {
   	startTimer : startTimer,
@@ -119,6 +136,7 @@ define(['parameterCheck'],function(parameterCheck){
         GetUpdatePeriodMillis : GetUpdatePeriodMillis,
 	pause : pause,
 	resume: resume,
+	registerObserver : registerObserver
       };
 });
 

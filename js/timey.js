@@ -37,7 +37,6 @@ define(['parameterCheck'],function(parameterCheck){
   	_timeoutId = window.setInterval(function(){
             updateTimeRemaining();
             }, _updatePeriodMillis);
-	console.log('timeout ' + _timeoutId);
       };
 
       var GetUpdatePeriodMillis = function(){
@@ -53,7 +52,6 @@ define(['parameterCheck'],function(parameterCheck){
 	    //since we are approximating stopping there
 	        _elapsedMillis = _countdownFromMillis;
                 cancelCountdown(_timeoutId);
-		console.log('doin');
 		fireTimerFinished();
                 _remain = 0;
         }

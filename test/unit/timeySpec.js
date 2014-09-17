@@ -246,17 +246,16 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
   });
 
   describe('timerFinished observable tests: ', function(){
-    var timer;
     beforeEach(function(){
           this.clock = sinon.useFakeTimers();
-	  timer = Object.create(timey);
+    //      timer = Object.create(timey);
     });
 
     describe("when timer's time runs out and one observer subscribed ",function(){
             it(' the observer is called',function(){
+	      var timer = Object.create(timey);
         	    var wasCalled = false;
         	    var observer1 = function(){
-        		    console.log('called');
         		    wasCalled = true;
         	    };
         	    timer.registerObserver(observer1);
@@ -268,9 +267,9 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 
     describe("when timer's time has not run out and one observer subscribed ",function(){
             it(' the observer is not called',function(){
+	      var timer = Object.create(timey);
         	    var wasCalled = false;
         	    var observer1 = function(){
-        		    console.log('c');
         		    wasCalled = true;
         	    };
         	    timer.registerObserver(observer1);
@@ -282,8 +281,9 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 
     describe("when timer is reset and one observer subscribed ",function(){
             it(' the observer is not called',function(){
+	      var timer = Object.create(timey);
         	    var wasCalled = false;
-        	    var observer1 = function(){console.log('b');wasCalled = true;};
+        	    var observer1 = function(){wasCalled = true;};
         	    timer.registerObserver(observer1);
               timer.startTimer(8000);
               clockmock.elapseMillis(this.clock,5000);
@@ -294,8 +294,9 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 
     describe("when timer is paused and one observer subscribed ",function(){
             it(' the observer is not called',function(){
+	      var timer = Object.create(timey);
         	    var wasCalled = false;
-        	    var observer1 = function(){console.log('1');wasCalled = true;};
+        	    var observer1 = function(){wasCalled = true;};
         	    timer.registerObserver(observer1);
               timer.startTimer(8000);
               clockmock.elapseMillis(this.clock,1000);
@@ -308,6 +309,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 
    describe("when timer completes one observer subscribed ",function(){
 	    it(' the observer is not more than once',function(){
+	      var timer = Object.create(timey);
 		    var callCount = 0;
 		    var observer1 = function(){
 			    callCount++;
@@ -322,7 +324,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 
     afterEach(function(){
         this.clock.restore();
-	timer="";
+    //    timer="";
     });
   });
 

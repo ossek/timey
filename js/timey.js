@@ -52,7 +52,10 @@ define(['parameterCheck'],function(parameterCheck){
 	    //since we are approximating stopping there
 	        _elapsedMillis = _countdownFromMillis;
                 cancelCountdown(_timeoutId);
-		fireTimerFinished();
+		fireTimerFinished({
+		  completedCountdownMillis: _elapsedMillis,
+		  finishedAt: Date.now(),
+	         });
                 _remain = 0;
         }
         else{
@@ -110,15 +113,15 @@ define(['parameterCheck'],function(parameterCheck){
 	      startTimerWithUpdatePeriodMillis(_remain,_updatePeriodMillis);
       };
 
-      var registerObserver = function(noArgObserverFunction){
-	      _observers.push(noArgObserverFunction);
+      var registerObserver = function(observerFunc){
+	      _observers.push(observerFunc);
       };
 
-      var fireTimerFinished = function(){
+      var fireTimerFinished = function(timerFinishedEventObj){
 	      var i = 0;
 	      for (i; i < _observers.length; i++){
 	        if(typeof _observers[i] === "function"){
-	          _observers[i]();
+	          _observers[i](timerFinishedEventObj);
 	        }
 	      }
       };

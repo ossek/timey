@@ -248,14 +248,13 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
   describe('timerFinished observable tests: ', function(){
     beforeEach(function(){
           this.clock = sinon.useFakeTimers();
-    //      timer = Object.create(timey);
     });
 
     describe("when timer's time runs out and one observer subscribed ",function(){
             it(' the observer is called',function(){
 	      var timer = Object.create(timey);
         	    var wasCalled = false;
-        	    var observer1 = function(){
+        	    var observer1 = function(timerFinishedEventObj){
         		    wasCalled = true;
         	    };
         	    timer.registerObserver(observer1);
@@ -269,7 +268,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
             it(' the observer is not called',function(){
 	      var timer = Object.create(timey);
         	    var wasCalled = false;
-        	    var observer1 = function(){
+        	    var observer1 = function(timerFinishedEventObj){
         		    wasCalled = true;
         	    };
         	    timer.registerObserver(observer1);
@@ -283,7 +282,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
             it(' the observer is not called',function(){
 	      var timer = Object.create(timey);
         	    var wasCalled = false;
-        	    var observer1 = function(){wasCalled = true;};
+        	    var observer1 = function(timerFinishedEventObj){wasCalled = true;};
         	    timer.registerObserver(observer1);
               timer.startTimer(8000);
               clockmock.elapseMillis(this.clock,5000);
@@ -296,7 +295,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
             it(' the observer is not called',function(){
 	      var timer = Object.create(timey);
         	    var wasCalled = false;
-        	    var observer1 = function(){wasCalled = true;};
+        	    var observer1 = function(timerFinishedEventObj){wasCalled = true;};
         	    timer.registerObserver(observer1);
               timer.startTimer(8000);
               clockmock.elapseMillis(this.clock,1000);
@@ -311,7 +310,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 	    it(' the observer is not more than once',function(){
 	      var timer = Object.create(timey);
 		    var callCount = 0;
-		    var observer1 = function(){
+		    var observer1 = function(timerFinishedEventObj){
 			    callCount++;
 		    };
 		    timer.registerObserver(observer1);
@@ -322,9 +321,39 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 	    });
     });
 
+   describe("when timer completes one observer subscribed ",function(){
+	    it(' the observer gets completedCoundownMillis',function(){
+	      var timer = Object.create(timey);
+		    var completedMillis = 0;
+		    var observer1 = function(timerFinishedEventObj){
+			    completedMillis=timerFinishedEventObj.completedCountdownMillis;
+		    };
+		    timer.registerObserver(observer1);
+              timer.startTimer(8000);
+              clockmock.elapseMillis(this.clock,20000);
+	      timer.reset();
+	      expect(completedMillis).toEqual(8000);
+	    });
+    });
+
+   describe("when timer completes one observer subscribed ",function(){
+	    it(' the observer gets finishedAt',function(){
+	      var timer = Object.create(timey);
+		    var finishedAt = 0;
+		    var observer1 = function(timerFinishedEventObj){
+			    finishedAt=timerFinishedEventObj.finishedAt;
+		    };
+		    timer.registerObserver(observer1);
+              var startAt = Date.now();
+              timer.startTimer(8000);
+              clockmock.elapseMillis(this.clock,20000);
+	      timer.reset();
+	      expect(finishedAt).toEqual(startAt + 8000);
+	    });
+    });
+
     afterEach(function(){
         this.clock.restore();
-    //    timer="";
     });
   });
 

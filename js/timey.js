@@ -91,13 +91,58 @@ define(['parameterCheck'],function(parameterCheck){
           _remain = 0;
 	  _isPaused = false;
       };
+
+      var MAX_REPRESENTABLE = 359999000; // 99 h 59 m 59 s, max time period representable with 2 digits for each unit
   
       var getHourMinuteSecondString = function(millis) {
-  	var dateFromMillis = new Date(millis); 
-	var outputString = padTimeWithLeading0(dateFromMillis.getUTCHours()) + ":" + 
-		padTimeWithLeading0(dateFromMillis.getUTCMinutes()) + ":" + 
-		padTimeWithLeading0(dateFromMillis.getUTCSeconds());
+	if(millis > MAX_REPRESENTABLE) {
+		throw "Max representable is " + MAX_REPRESENTABLE;
+	}
+	var hourMinuteSecond = getHourMinuteSecondObj(millis);
+	var outputString = padTimeWithLeading0(hourMinuteSecond.hour) + ":" + 
+		padTimeWithLeading0(hourMinuteSecond.minute) + ":" + 
+		padTimeWithLeading0(hourMinuteSecond.second);
   	return outputString;
+      };
+
+      var getPaddedHourMinuteSecondObj = function(millis){
+	if(millis > MAX_REPRESENTABLE) {
+		throw "Max representable is " + MAX_REPRESENTABLE;
+	}
+	      var hourMinuteSecond = getHourMinuteSecondObj(millis);
+	      return {
+		hour: padTimeWithLeading0(hourMinuteSecond.hour),
+		minute: padTimeWithLeading0(hourMinuteSecond.minute),
+		second: padTimeWithLeading0(hourMinuteSecond.second)
+	      };
+      };
+
+      var HOUR_AS_MILLIS = 3600000;
+      var MINUTE_AS_MILLIS = 60000;
+      var SECOND_AS_MILLIS = 1000;
+
+      var getHourMinuteSecondObj = function(millis){
+	var h = 0;
+	var hr = millis;
+	var m = 0;
+	var mr = millis;
+	var s = 0;
+	if(millis >= HOUR_AS_MILLIS){
+		h = Math.floor(millis/HOUR_AS_MILLIS);
+		hr = millis % HOUR_AS_MILLIS;
+	}
+	if(hr >= MINUTE_AS_MILLIS){
+		m = Math.floor(hr/MINUTE_AS_MILLIS);
+		mr = hr % MINUTE_AS_MILLIS;
+	}	
+	s = Math.floor(mr/SECOND_AS_MILLIS);
+
+	var hourMinuteSecond = {
+		hour: h,
+		minute: m, 
+		second: s
+	};
+	return hourMinuteSecond;
       };
 
       var getLocalTimeString = function(millis){
@@ -144,6 +189,8 @@ define(['parameterCheck'],function(parameterCheck){
       return {
   	startTimer : startTimer,
         getHourMinuteSecondString : getHourMinuteSecondString,
+        getPaddedHourMinuteSecondObj:getPaddedHourMinuteSecondObj,
+        getHourMinuteSecondObj : getHourMinuteSecondObj,
         getLocalTimeString : getLocalTimeString,
   	reset : reset,
   	getTimeRemainingMillis: getTimeRemainingMillis,

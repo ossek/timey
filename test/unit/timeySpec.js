@@ -5,23 +5,55 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
   describe('service', function() {
     beforeEach(function(){});
   
-    //this test indicates a nice bug whereby the interval that does the time updating 
-    //todo add some time elapsing to fix it
-    //is never cancelled
-    //describe('when start time was 0', function() {
-    //    it('elapsedMillis + timeRemainingMillis should == startime', function() {
-    //            timey.startTimer(0);
-    //            var elapsedMillis = timey.getElapsedMillis();
-    //            var timeRemainingMillis = timey.getTimeRemainingMillis();
-    //      expect(elapsedMillis + timeRemainingMillis).toEqual(0);
-    //    });
-    //});
-
     //start at 3 s, elapse 1s 1 ms
     var testRunFor3000_1001 = countdownTests.doStartElapseTests(3000,1001,"00:00:02");
     testRunFor3000_1001();
   
   });
+
+  var displayTest = function(millis,h,m,s){
+	  describe('when millis is '+  millis , function(){
+		  it(' display ' + h + ':' + m + ':' + s,function(){
+			  displayExpectations(millis,h,m,s);
+		  });
+	  }); 
+  };
+  var displayExpectations = function(millis,h,m,s){
+     expect(timey.getHourMinuteSecondString(millis)).toBe(h + ':' + m + ':' + s);
+     expect(timey.getPaddedHourMinuteSecondObj(millis).hour).toBe(h);
+     expect(timey.getPaddedHourMinuteSecondObj(millis).minute).toBe(m);
+     expect(timey.getPaddedHourMinuteSecondObj(millis).second).toBe(s);
+  };
+
+  describe('display ', function(){
+	  displayTest(45296000,'12','34','56');
+	  displayTest(0,'00','00','00');
+	  //displayTest(32407199000,'9001','59','59');
+	  displayTest(215999000,'59','59','59');
+
+	  describe('when millis is '+  241689000, function(){
+		  it(' display 67:08:09',function(){
+                       expect(timey.getHourMinuteSecondString(241689000)).toBe('67:08:09');
+                       expect(timey.getPaddedHourMinuteSecondObj(241689000).hour).toBe('67');
+                       expect(timey.getPaddedHourMinuteSecondObj(241689000).minute).toBe('08');
+                       expect(timey.getPaddedHourMinuteSecondObj(241689000).second).toBe('09');
+		  });
+	  }); 
+	  describe('when millis is '+  32407199000, function(){
+		  it(' throws',function(){
+		       var tryGetString = function(){
+                          timey.getHourMinuteSecondString(32407199000);
+		       };
+		       var tryGetObj = function(){
+                          timey.getPaddedHourMinuteSecondObj(32407199000);
+		       };
+                       expect(tryGetString).toThrow();
+                       expect(tryGetObj).toThrow();
+		  });
+	  }); 
+  });
+
+  
 
   describe('start elapse tests',function(){
     //start at 15 min, elapse 6 min, 27 s
@@ -29,6 +61,8 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
     testRun900000_387000();
     //elapse the time past the end of the startTime
     var testRun900000_1000000 = elapsePastTimerEndTests.doStartElapseTests(900000,1000000,"00:00:00");
+    //todo
+    //testRun900000_1000000();
     
     describe('when start time is -1', function(){
         it('exception is thrown', function(){

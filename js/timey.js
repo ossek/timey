@@ -13,6 +13,7 @@ define(['parameterCheck'],function(parameterCheck){
       var _updatePeriodMillis = 250;
       var _isPaused = false;
       var _observers = [];
+      var  _initialCountdown = 0;
 
       var startTimer = function(countdownFromMillis){
 	      startTimerWithUpdatePeriodMillis(countdownFromMillis,250);
@@ -28,8 +29,13 @@ define(['parameterCheck'],function(parameterCheck){
 	//must make sure any previously started interval is cancelled before starting a new one.
 	//since the reassignment to _timeoutId will make is so we lose hold of any previously defined
 	//timeout id for a timeout that may still be ongoing
+	_initialCountdown = countdownFromMillis;
+	resumeTimer(countdownFromMillis,updatePeriodMillis);
+      };
+
+      var resumeTimer = function(countdownFromMillis,updatePeriodMillis){
 	reset();
-  	_countdownFromMillis = countdownFromMillis;
+        _countdownFromMillis = countdownFromMillis;
 	_isPaused =false;
   	_startDate = Date.now(); 
 	_updatePeriodMillis = updatePeriodMillis;
@@ -53,7 +59,7 @@ define(['parameterCheck'],function(parameterCheck){
 	        _elapsedMillis = _countdownFromMillis;
                 cancelCountdown(_timeoutId);
 		fireTimerFinished({
-		  completedCountdownMillis: _elapsedMillis,
+		  completedCountdownMillis: _initialCountdown,
 		  finishedAt: Date.now(),
 	         });
                 _remain = 0;
@@ -170,7 +176,7 @@ define(['parameterCheck'],function(parameterCheck){
 
       var resume = function(){
 	      //depends on this function resetting _isPaused
-	      startTimerWithUpdatePeriodMillis(_remain,_updatePeriodMillis);
+	      resumeTimer(_remain,_updatePeriodMillis);
       };
 
       var registerObserver = function(observerFunc){

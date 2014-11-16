@@ -20,9 +20,10 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
   };
   var displayExpectations = function(millis,h,m,s){
      expect(timey.getHourMinuteSecondString(millis)).toBe(h + ':' + m + ':' + s);
-     expect(timey.getPaddedHourMinuteSecondObj(millis).hour).toBe(h);
-     expect(timey.getPaddedHourMinuteSecondObj(millis).minute).toBe(m);
-     expect(timey.getPaddedHourMinuteSecondObj(millis).second).toBe(s);
+     var hourMinuteSecondObj = timey.getPaddedHourMinuteSecondObj(millis);
+     expect(hourMinuteSecondObj.hour).toBe(h);
+     expect(hourMinuteSecondObj.minute).toBe(m);
+     expect(hourMinuteSecondObj.second).toBe(s);
   };
 
   describe('display ', function(){
@@ -259,7 +260,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
               expect(result).toEqual(2000);
             });
 
-            //based on error seen at ui
+            //based on error observed in use
     describe('when timer is started twice at time t, elapses 3 secs, then paused, then elapsed 3 secs', function(){
             it('time remaining t - 3',function(){
           	  timey.startTimer(8000);
@@ -370,6 +371,7 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
 	    });
     });
 
+  
    describe("when timer completes one observer subscribed ",function(){
 	    it(' the observer gets finishedAt',function(){
 	      var timer = Object.create(timey);
@@ -383,6 +385,25 @@ define(['countdownTests','elapsePastTimerEndTests','sinon','clockmock','timey'],
               clockmock.elapseMillis(this.clock,20000);
 	      timer.reset();
 	      expect(finishedAt).toEqual(startAt + 8000);
+	    });
+    });
+
+  describe("when timer is started, paused, resumed",function(){
+	    it(' the observer gets completedCoundownMillis',function(){
+	      var timer = Object.create(timey);
+		    var completedMillis = 0;
+		    var observer1 = function(timerFinishedEventObj){
+			    completedMillis=timerFinishedEventObj.completedCountdownMillis;
+		    };
+		    timer.registerObserver(observer1);
+              timer.startTimer(8000);
+              clockmock.elapseMillis(this.clock,3000);
+	      timer.pause();
+              clockmock.elapseMillis(this.clock,9000);
+	      timer.resume();
+              clockmock.elapseMillis(this.clock,5001);
+	      timer.reset();
+	      expect(completedMillis).toEqual(8000);
 	    });
     });
 
